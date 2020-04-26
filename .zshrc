@@ -88,6 +88,7 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 #
 export AWSROLE="OrganizationAccountAccessRole"
+export AWS_USERNAME="dcarthew"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -107,14 +108,29 @@ export AWSROLE="OrganizationAccountAccessRole"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias k=kubectl
+alias t=terraform
 alias "kc=kubectl config view -o template --template='{{ index . \"current-context\" }}'"
 alias otp=authy
-alias a=aro
-alias kgds="kubectl get ds"
 alias ap=aws-profile
+alias awsume=". awsume"
+alias a="awsro"
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+alias gpm='git checkout master && git pull'
+alias gpn='git push --set-upstream origin $(git branch | grep \* | cut -d " " -f2)'
+
+alias tf=terraform
+
+alias kindctl="kubectl --kubeconfig ~/.kube/kind-config-kind"
+alias kgds="kubectl get ds"
+alias k=kubectl
+
+export CDIFF_OPTIONS='-s -w0'
 
 eval $(thefuck --alias)
+eval $(go env)
 
 source "${HOME}"/.ktx
 autoload bashcompinit
@@ -122,7 +138,11 @@ bashcompinit
 source "${HOME}"/.ktx-completion.sh
 source $ZSH/custom/plugins/kube-ps1.sh
 
-export PATH=$PATH:~/.tfenv/bin
+export PATH=$PATH:~/.tfenv/bin:$GOPATH/bin
 alias config='/usr/bin/git --git-dir=/home/carthewd/.dotfiles/ --work-tree=/home/carthewd'
 
 PROMPT='$(kube_ps1)'$'\n'$PROMPT
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+complete -o nospace -C /home/carthewd/.tfenv/versions/0.12.13/terraform terraform
